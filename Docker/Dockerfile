@@ -38,6 +38,5 @@ COPY Docker/config/php.ini /usr/local/etc/php/conf.d/app.ini
 
 # Dépendances Composer
 RUN cd /var/www/html
-RUN export COMPOSER_MEMORY_LIMIT=-1 && \
-    composer self-update --1 && \
-    composer install --no-interaction --optimize-autoloader
+RUN composer install --no-dev --no-interaction --no-autoloader --no-scripts
+RUN composer dump-autoload --optimize
