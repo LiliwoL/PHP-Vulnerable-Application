@@ -1,0 +1,55 @@
+version: "3.8"
+
+services:
+  # ========================================
+  # Serveur Apache PHP
+  # ========================================
+  php-vulnerable-app:
+
+    # Emplacement du dockerFile
+    build:
+      # Attention au contexte!
+      context: .
+      dockerfile: ./Docker/Dockerfile
+
+    # Nom du container
+    container_name: php-vulnerable-app
+    ports:
+      - 808:80
+
+    volumes:
+      # Dossier de l'application dans le DocumentRoot
+      - ./app:/var/www/html
+
+    # Logs
+      - ./logs:/var/log/apache2
+
+    networks:
+      - php-vulnerable-app
+
+
+  # ========================================
+  # Serveur MySQL
+  # ========================================
+  mysql-vulnerable-app:
+    image: mysql:5.7
+    container_name: mysql-vulnerable-app
+    environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: phpgoof
+        MYSQL_USER: phpgoof
+        MYSQL_PASSWORD: password
+
+    # Volumes partagés entre l'hôte et le container
+    volumes:
+      - ./db_data:/var/lib/mysql
+      # Script SQL utilisé au démarrage du container
+      - ./app/sql/database.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+    networks:
+      - php-vulnerable-app
+
+networks:
+  php-vulnerable-app:
+        driver: bridge

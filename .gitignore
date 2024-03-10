@@ -1,5 +1,10 @@
-### Composer ###
+.idea/
 .DS_Store
-composer.phar
-/vendor/
-.gitignore
+
+app/.env
+
+app/vendor/
+
+db_data/
+
+logs/

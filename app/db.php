@@ -1,5 +1,5 @@
 <?php
-$connection = 'localhost';
+$connection = 'mysql-vulnerable-app';
 $username = 'phpgoof';
 $password = 'password';
 $database = 'phpgoof';

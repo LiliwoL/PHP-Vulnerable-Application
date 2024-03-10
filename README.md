@@ -2,9 +2,18 @@
 
 A vulnerable PHP demo todo application that is for demonstration and education purposes only, i take no responsibility for this being used with malicious intent nor should this be used for malicious intent (or be run in any product environment).
  
-![PHP Goof](/images/screenshot.png)
+![PHP Goof](/app/images/screenshot.png)
   
-## Requisites & Running 
+## Docker
+
+Host: http://localhost:808
+DB: mysql://localhost:3307
+
+
+
+```
+
+## Requisites & Running
 
 - PHP 7.4+
 - Mysql or MariaDB 
