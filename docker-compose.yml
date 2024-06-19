@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  # ========================================
+  # Serveur Apache PHP
+  # ========================================
+  php-vulnerable-app:
+
+    # Emplacement du dockerFile
+    build:
+      # Attention au contexte!
+      context: .
+      dockerfile: ./Docker/Dockerfile
+
+    # Nom du container
+    container_name: "${PROJECT_NAME}-php"
+    ports:
+      - 808:80
+
+    volumes:
+      # Dossier de l'application dans le DocumentRoot
+      - ./app:/var/www/html
+
+    # Logs
+      - ./logs:/var/log/apache2
+
+    networks:
+      - "php-goof-network"
+
+  # ========================================
+  # Serveur MySQL
+  # ========================================
+  mysql-vulnerable-app:
+    image: mysql:5.7
+    container_name: "${PROJECT_NAME}-sql"
+    env_file:
+      - .env.docker
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+
+    # Volumes partagés entre l'hôte et le container
+    volumes:
+      - ./db_data:/var/lib/mysql
+      # Script SQL utilisé au démarrage du container
+      - ./app/sql/database.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+    networks:
+      - "php-goof-network"
+
+networks:
+  php-goof-network:
+        driver: bridge

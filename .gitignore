@@ -1,0 +1,10 @@
+.idea/
+.DS_Store
+
+app/.env
+
+app/vendor/
+
+db_data/
+
+logs/
